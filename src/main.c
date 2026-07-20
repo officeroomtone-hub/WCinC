@@ -3,8 +3,9 @@
 #include <string.h>
 #include <getopt.h>
 
-#define PROGRAM_NAME = "wc-clone"
+#define PROGRAM_NAME "wc-clone"
 
+// copied from core utils implementation
 static struct option const longopts[] = 
   {
   {"bytes", no_argument, NULL, 'c'},
@@ -13,35 +14,39 @@ static struct option const longopts[] =
   {"words", no_argument, NULL, 'w'},
 };
 
-void 
+/* void 
 usage (int status)
 {
 if (status != EXIT_SUCCESS){
     printf("fail");
   };
-}
+} */
 
-int main(int argc,char *argv[]){
+const char *exitmessage = "exited successfully\n";
+int sizechar = sizeof(char);
+
+
+int main(int argc,char *argv[])
+{
 
 setbuf(stdout, NULL);
 
-int sizechar= sizeof(char);
-const char *exitmessage = "exited successfully\n";
+int argvsize = sizeof(argc)/sizeof(char);
 
 char arg[1024];
 
-int argvsize = sizeof(argc)/sizeof(char);
-int arg_count= argc;
+ // start loop if no arg is given
+  if (argc <= 1)
+  {
 
-  if (argc <= 1) {
     printf("sizeof(char) = %d\n",sizechar );
     printf("wc clone starting up...\n");
 
-      while (1){
+    while (1){
 
-        fgets(arg, sizeof(arg), stdin);
+      fgets(arg, sizeof(arg), stdin);
 
-          arg [strcspn(arg, "\n")] = '\0';
+      arg [strcspn(arg, "\n")] = '\0';
 
         if (strcmp(arg, "exit") == 0){
           printf("%s\n", exitmessage);
@@ -54,11 +59,13 @@ int arg_count= argc;
         printf("size of arg is %d bytes or %d bits\n", argsize, arg_in_bits);
 
       }
-  } else {
+  } else 
+    {
 
     if (argc > 1 && strcmp(argv[1], "arg") == 0){
-    printf("%s\n and sizeof %d\n", argv[1], arg_count - 1);
+    printf("%s\n and sizeof %d\n", argv[1], argc - 1);
     }
+
     else if (strcmp(argv[1], "-l") == 0){
         int linecount = 0;
         char buffer[1024];
@@ -66,7 +73,8 @@ int arg_count= argc;
         while (fgets(buffer, sizeof(buffer),stdin) != NULL){
           if (buffer[0] == '\n') {
          // exit the loop for now if no input is given // 
-          exit(0);
+          perror("buffer empty ");
+          exit(1);
         }
           linecount++;
           printf(" input is = %s\n loop ran %d times",buffer,linecount);
