@@ -4,7 +4,7 @@
 #include <getopt.h>
 
 #define PROGRAM_NAME "wc-clone"
-// copied from core utils implementation
+
 static struct option const longopts[] = 
   {
   {"bytes", no_argument, NULL, 'c'},
@@ -13,22 +13,16 @@ static struct option const longopts[] =
   {"words", no_argument, NULL, 'w'},
 };
 
-/* void 
-usage (int status)
-{
-if (status != EXIT_SUCCESS){
-    printf("fail");
-  };
-} */
+void usage(int status);
+int argSize_in_bit(int *argSize);
 
 const char *exitmessage = "exited successfully\n";
+
 int sizeofChar = sizeof(char);
 
-int argSize_in_bit(int *argSize){
- return *argSize * 8; 
-};
 
-int main(int argc,char *argv[]) {
+int
+main(int argc,char *argv[]) {
 
 int argvsize = sizeof(argc)/sizeof(char);
 char arg[1024];
@@ -82,5 +76,18 @@ int argsize = strlen(arg);
     }
  
   return 0;
+};
+// END OF MAIN
+
+void
+usage (int status)
+{
+if (status != EXIT_SUCCESS){
+    printf("fail");
+  };
 }
 
+
+int argSize_in_bit(int *argSize){
+  return *argSize * 8; 
+};
