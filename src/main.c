@@ -38,7 +38,6 @@ int argsize = strlen(arg);
 
       fgets(arg, sizeof(arg), stdin);
       arg [strcspn(arg, "\n")] = '\0';
-      printf("wc clone starting up even though it shouldn't \n");
 
       if (strcmp(arg, "exit") == 0){
         printf("%s\n", exitmessage);
