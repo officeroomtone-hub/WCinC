@@ -32,19 +32,19 @@ int main(int argc,char *argv[]) {
 
 int argvsize = sizeof(argc)/sizeof(char);
 char arg[1024];
-fgets(arg, sizeof(arg), stdin);
-arg [strcspn(arg, "\n")] = '\0';
 int argsize = strlen(arg);
 
   // start loop if arg is not given
-  if (argc <= 1)
-  {
+  if (argc <= 1){
 
     //printf("sizeof(char) = %d\n",sizeofChar );
     printf("wc clone starting up...\n");
 
     while (1){
-    printf("wc clone starting up even though it shouldn't \n");
+
+      fgets(arg, sizeof(arg), stdin);
+      arg [strcspn(arg, "\n")] = '\0';
+      printf("wc clone starting up even though it shouldn't \n");
 
       if (strcmp(arg, "exit") == 0){
         printf("%s\n", exitmessage);
@@ -55,7 +55,7 @@ int argsize = strlen(arg);
       printf("size of arg is %d bytes or %d bits\n", argsize, argSize_in_bit(&argsize) );
       }
 
-  } 
+  } else
 
     if (argc > 1 && strcmp(argv[1], "arg") == 0){
     printf("%s\n and sizeof %d\n", argv[1], argc - 1);
