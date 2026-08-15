@@ -6,3 +6,6 @@ wctry: main.c
 
 clean:
 			rm -f wctry
+
+run:
+			./wctry

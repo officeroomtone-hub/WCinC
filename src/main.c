@@ -4,29 +4,29 @@
 #include <getopt.h>
 
 #define PROGRAM_NAME "wc-clone"
+#define exit_message "exited successfully"
 
-static struct option const longopts[] = 
+
+static struct option const long_opt[] =
   {
-  {"bytes", no_argument, NULL, 'c'},
-  {"chars", no_argument, NULL, 'm'},
-  {"lines", no_argument, NULL, 'l'},
-  {"words", no_argument, NULL, 'w'},
+    {"bytes", no_argument, NULL,'c'},
+    {"chars", no_argument, NULL,'m'},
+    {"lines", no_argument, NULL,'l'},
+    {"words", no_argument, NULL,'w'},
+    {0,0,0,0},
 };
 
 void usage(int status);
 int argSize_in_bit(int *argSize);
+int opt;
 
-const char *exitmessage = "exited successfully\n";
-
-int sizeofChar = sizeof(char);
-
-
-int
-main(int argc,char *argv[]) {
-
-int argvsize = sizeof(argc)/sizeof(char);
+int main(int argc,char *argv[]) {
 char arg[1024];
-int argsize = strlen(arg);
+
+
+while ((opt = getopt(argc, argv,"-c: -m: -l: -w:"))!= -1) {
+  printf("lol");
+  }
 
   // start loop if arg is not given
   if (argc <= 1){
@@ -35,26 +35,25 @@ int argsize = strlen(arg);
     printf("wc clone starting up...\n");
 
     while (1){
-
       fgets(arg, sizeof(arg), stdin);
       arg [strcspn(arg, "\n")] = '\0';
 
       if (strcmp(arg, "exit") == 0){
-        printf("%s\n", exitmessage);
-        exit(0);
+        printf(exit_message);
+        return EXIT_SUCCESS;
       }
 
       int argsize = strlen(arg);
       printf("size of arg is %d bytes or %d bits\n", argsize, argSize_in_bit(&argsize) );
       }
-
-  } else
+    }
 
     if (argc > 1 && strcmp(argv[1], "arg") == 0){
     printf("%s\n and sizeof %d\n", argv[1], argc - 1);
     }
 
-    else if (argc > 1 && strcmp(argv[1], "-l") == 0){
+
+  if (argc > 1 && strcmp(argv[1], "-l") == 0 ){
         int linecount = 0;
         char buffer[1024];
 
@@ -63,18 +62,18 @@ int argsize = strlen(arg);
             // exit the loop for now if no input is given // 
             printf(" input is = %s\n loop ran %d times",buffer,linecount);
             perror("buffer empty, no input recieved");
-            exit(1);
         } else {
             linecount++;
-            printf(" input is = %s\n loop ran %d times",buffer,linecount);
-      } 
+            printf("-perror input is = %s\n loop ran %d times",buffer,linecount);
+      return EXIT_FAILURE;
+      }
     }
 
   } else {
         printf("%s\n", "Invalid Input: Unsupported Flag");
     }
  
-  return 0;
+  return EXIT_SUCCESS;
 };
 // END OF MAIN
 
@@ -83,7 +82,9 @@ usage (int status)
 {
 if (status != EXIT_SUCCESS){
     printf("fail");
-  };
+  } else {
+    printf("success");
+  }
 }
 
 
