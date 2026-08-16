@@ -4,13 +4,13 @@
 
 void calc_distance(uint8_t, uint8_t);
 
-typedef struct {
+struct distance {
   uint8_t An;
   uint8_t Bn;
-} distance;
+};
 
 int main() {
-  distance d = {
+  struct distance d = {
       10,
       34,
   };

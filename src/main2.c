@@ -4,45 +4,51 @@
 #include <string.h>
 #include <unistd.h>
 
-#define PROGRAM_NAME "wc-clone"
 #define exit_message "exited successfully"
 
-static struct option const long_opt[] = {
-    {"bytes", no_argument, NULL, 'c'},
-    {"chars", no_argument, NULL, 'm'},
-    {"lines", no_argument, NULL, 'l'},
-    {"words", no_argument, NULL, 'w'},
-    {0, 0, 0, 0},
-};
+void flag_c();
+void flag_m();
+void flag_l();
+void flag_w();
 
-void usage(int status);
-int argSize_in_bit(int *argSize);
-int opt;
+typedef struct {
+  void *flag_c;
+  void *flag_m;
+  void *flag_l;
+  void *flag_w;
+} flags;
 
 int main(int argc, char *argv[]) {
+  int argSize_in_bit(int *argSize);
+  int opt;
   char arg[1024];
 
   while ((opt = getopt(argc, argv, "cmlw")) != -1) {
     switch (opt) {
     case 'c':
-      printf("lol\n");
+      flag_c();
       break;
     case 'm':
+      flag_m();
       break;
     case 'l':
+      flag_l();
       break;
     }
+    return EXIT_SUCCESS;
+    ;
   }
 
-  // start loop if arg is not given
+  // interactive mode if no flag is specified
   if (argc <= 1) {
 
     // printf("sizeof(char) = %d\n",sizeofChar );
     printf("wc clone starting up...\n");
 
+    fgets(arg, sizeof(arg), stdin);
+    arg[strcspn(arg, "\n")] = '\0';
+
     while (1) {
-      fgets(arg, sizeof(arg), stdin);
-      arg[strcspn(arg, "\n")] = '\0';
 
       if (strcmp(arg, "exit") == 0) {
         printf(exit_message);
@@ -59,37 +65,20 @@ int main(int argc, char *argv[]) {
     printf("%s\n and sizeof %d\n", argv[1], argc - 1);
   }
 
-  if (argc > 1 && strcmp(argv[1], "-l") == 0) {
-    int linecount = 0;
-    char buffer[1024];
-
-    while (fgets(buffer, sizeof(buffer), stdin) != NULL) {
-      if (buffer[0] == '\n') {
-        // exit the loop for now if no input is given //
-        printf(" input is = %s\n loop ran %d times", buffer, linecount);
-        perror("buffer empty, no input recieved");
-      } else {
-        linecount++;
-        printf("-perror input is = %s\n loop ran %d times", buffer, linecount);
-        return EXIT_FAILURE;
-      }
-    }
+  if (opt == 'l') {
 
   } else {
     printf("%s\n", "Invalid Input: Unsupported Flag");
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS;
   }
 
   return EXIT_SUCCESS;
-};
+}
 // END OF MAIN
 
-void usage(int status) {
-  if (status != EXIT_SUCCESS) {
-    printf("fail");
-  } else {
-    printf("success");
-  }
-}
+void flag_c() { printf("%s\n", "flag is -c"); }
+void flag_m() { printf("%s\n", "flag is -m"); }
+void flag_l() { printf("%s\n", "flag is -l"); }
+void flag_w() { printf("%s\n", "flag is -w"); }
 
-int argSize_in_bit(int *argSize) { return *argSize * 8; };
+int argSize_in_bit(int *argSize) { return *argSize * 8; }

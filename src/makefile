@@ -1,8 +1,8 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c23
+CFLAGS = -Wall -Wextra -std=c23 -pedantic
 
 wctry: main.c
-			$(CC) $(CFLAGS) main.c -o wctry
+			$(CC) $(CFLAGS) main2.c -o wctry
 
 clean:
 			rm -f wctry
