@@ -9,3 +9,5 @@ clean:
 
 run:
 			./wctry
+wflag:
+			./wctry -c
