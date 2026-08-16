@@ -6,17 +6,17 @@
 
 #define exit_message "exited successfully"
 
-void flag_c();
-void flag_m();
-void flag_l();
-void flag_w();
+void input_flag_c();
+void input_flag_m();
+void input_flag_l();
+void input_flag_w();
 
 typedef struct {
-  void *flag_c;
-  void *flag_m;
-  void *flag_l;
-  void *flag_w;
-} flags;
+  void *input_flag_c;
+  void *input_flag_m;
+  void *input_flag_l;
+  void *input_flag_w;
+} input_flags;
 
 int main(int argc, char *argv[]) {
   int argument_size_in_bits(int *argument_size);
@@ -26,20 +26,20 @@ int main(int argc, char *argv[]) {
   while ((option = getopt(argc, argv, "cmlw")) != -1) {
     switch (option) {
     case 'c':
-      flag_c();
+      input_flag_c();
       break;
     case 'm':
-      flag_m();
+      input_flag_m();
       break;
     case 'l':
-      flag_l();
+      input_flag_l();
       break;
     }
     return EXIT_SUCCESS;
     ;
   }
 
-  // interactive mode if no flag is specified
+  // interactive mode if no input_flag is specified
   if (argc <= 1) {
 
     // printf("sizeof(char) = %d\n",sizeofChar );
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
   if (option == 'l') {
 
   } else {
-    printf("%s\n", "Invalid Input: Unsupported Flag");
+    printf("%s\n", "Invalid Input: Unsupported input_flag");
     return EXIT_SUCCESS;
   }
 
@@ -76,9 +76,9 @@ int main(int argc, char *argv[]) {
 }
 // END OF MAIN
 
-void flag_c() { printf("%s\n", "flag is -c"); }
-void flag_m() { printf("%s\n", "flag is -m"); }
-void flag_l() { printf("%s\n", "flag is -l"); }
-void flag_w() { printf("%s\n", "flag is -w"); }
+void input_flag_c() { printf("%s\n", "input_flag is -c"); }
+void input_flag_m() { printf("%s\n", "input_flag is -m"); }
+void input_flag_l() { printf("%s\n", "input_flag is -l"); }
+void input_flag_w() { printf("%s\n", "input_flag is -w"); }
 
 int argument_size_in_bits(int *argument_size) { return *argument_size * 8; }
