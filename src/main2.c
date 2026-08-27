@@ -8,6 +8,8 @@
 
 int parse_flags(int);
 
+int exit_program(char *);
+
 void byte_count();
 void char_count();
 void word_count();
@@ -18,10 +20,11 @@ void input_flag_m();
 void input_flag_l();
 void input_flag_w();
 
+int argument_size_in_bits(int *);
+
 int main(int argc, char *argv[]) {
   int input_flags = 0;
   char input_argument[1024];
-  int argument_size_in_bits(int *argument_size);
 
   while ((input_flags = getopt(argc, argv, "cmlw")) != -1) {
     parse_flags(input_flags);
@@ -32,15 +35,12 @@ int main(int argc, char *argv[]) {
     // printf("sizeof(char) = %d\n",sizeofChar );
     printf("wc clone starting up...\n");
 
-    fgets(input_argument, sizeof(input_argument), stdin);
-    input_argument[strcspn(input_argument, "\n")] = '\0';
-
     while (1) {
 
-      if (strcmp(input_argument, "exit") == 0) {
-        printf(exit_message);
-        return EXIT_SUCCESS;
-      }
+      exit_program(input_argument);
+
+      fgets(input_argument, sizeof(input_argument), stdin);
+      input_argument[strcspn(input_argument, "\n")] = '\0';
 
       int argument_size = strlen(input_argument);
       printf("size of arg is %d bytes or %d bits\n", argument_size,
@@ -86,4 +86,10 @@ void input_flag_m() { printf("%s\n", "input_flag is -m"); }
 void input_flag_l() { printf("%s\n", "input_flag is -l"); }
 void input_flag_w() { printf("%s\n", "input_flag is -w"); }
 
+int exit_program(char *input_argument) {
+  if (strcmp(input_argument, "exit") == 0) {
+    printf(exit_message);
+  }
+  return EXIT_SUCCESS;
+}
 int argument_size_in_bits(int *argument_size) { return *argument_size * 8; }
