@@ -6,39 +6,26 @@
 
 #define exit_message "exited successfully"
 
+int parse_flags(int);
+
+void byte_count();
+void char_count();
+void word_count();
+void line_count();
+
 void input_flag_c();
 void input_flag_m();
 void input_flag_l();
 void input_flag_w();
 
-typedef struct {
-  void *input_flag_c;
-  void *input_flag_m;
-  void *input_flag_l;
-  void *input_flag_w;
-} input_flags;
-
 int main(int argc, char *argv[]) {
-  int argument_size_in_bits(int *argument_size);
-  int option;
+  int input_flags = 0;
   char input_argument[1024];
+  int argument_size_in_bits(int *argument_size);
 
-  while ((option = getopt(argc, argv, "cmlw")) != -1) {
-    switch (option) {
-    case 'c':
-      input_flag_c();
-      break;
-    case 'm':
-      input_flag_m();
-      break;
-    case 'l':
-      input_flag_l();
-      break;
-    }
-    return EXIT_SUCCESS;
-    ;
-  }
-
+  while ((input_flags = getopt(argc, argv, "cmlw")) != -1) {
+    parse_flags(input_flags);
+  };
   // interactive mode if no input_flag is specified
   if (argc <= 1) {
 
@@ -65,16 +52,34 @@ int main(int argc, char *argv[]) {
     printf("%s\n and sizeof %d\n", argv[1], argc - 1);
   }
 
-  if (option == 'l') {
+  if (input_flags == 'l') {
 
   } else {
-    printf("%s\n", "Invalid Input: Unsupported input_flag");
+    printf("%s\n", "Invalid Input: Unsupported flag");
     return EXIT_SUCCESS;
   }
 
   return EXIT_SUCCESS;
 }
 // END OF MAIN
+
+int parse_flags(int input_flags) {
+  switch (input_flags) {
+  case 'c':
+    input_flag_c();
+    break;
+  case 'm':
+    input_flag_m();
+    break;
+  case 'l':
+    input_flag_l();
+    break;
+  default:
+    printf("%s", "no input valid flag recieved. pay a bit more attention\n");
+    break;
+  }
+  return EXIT_SUCCESS;
+}
 
 void input_flag_c() { printf("%s\n", "input_flag is -c"); }
 void input_flag_m() { printf("%s\n", "input_flag is -m"); }
